@@ -12,8 +12,8 @@
 //  (answers are saved only in your own browser — good for testing).
 
 window.BIRTHDAY_CONFIG = {
-  SUPABASE_URL: "https://YOUR-PROJECT.supabase.co",
-  SUPABASE_ANON_KEY: "YOUR-ANON-OR-PUBLISHABLE-KEY",
+  SUPABASE_URL: "https://biiwngafxkxfuitsezjo.supabase.co",
+  SUPABASE_ANON_KEY: "sb_publishable_u4LgnyuIgsTfrh3106Z7LA_vhwXUp-o",
 
   // Who is having the birthday (shown in jokes & on the debrief)
   BIRTHDAY_PERSON: "Lari",
