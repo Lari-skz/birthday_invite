@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>COMANDAMENTUL PETRECERII</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin">
+  <div class="crt" aria-hidden="true"></div>
+  <header class="topbar">
+    <span class="logo">🛰️ COMANDAMENT</span>
+    <span id="statusLed" class="led">● AȘTEPTARE</span>
+  </header>
+
+  <main>
+    <section class="screen active" id="loginBox" hidden>
+      <div class="panel">
+        <p class="mission-tag">ZONĂ RESTRICȚIONATĂ</p>
+        <h2>AUTENTIFICARE ORGANIZATOR</h2>
+        <form id="loginForm">
+          <label for="email" class="sr-only">Email</label>
+          <input id="email" type="email" autocomplete="username" placeholder="email" required>
+          <label for="password" class="sr-only">Parolă</label>
+          <input id="password" type="password" autocomplete="current-password" placeholder="parolă" required>
+          <p id="loginError" class="error" hidden></p>
+          <button class="btn btn-primary" type="submit">[ AUTENTIFICARE ]</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="screen active" id="dash" hidden>
+      <div class="panel">
+        <p class="mission-tag" id="demoNote" hidden>⚠ MOD DEMO — date de test salvate doar în acest browser</p>
+        <h2 class="center">╔ COMANDAMENTUL PETRECERII ╗</h2>
+
+        <div class="cmd-grid">
+          <div class="cell"><small>VIN</small><b id="cAttend">–</b></div>
+          <div class="cell"><small>NU VIN</small><b id="cNot">–</b></div>
+          <div class="cell"><small>🪩 SÂMBĂTĂ</small><b id="cSat">–</b></div>
+          <div class="cell"><small>🛋️ DUMINICĂ</small><b id="cSun">–</b></div>
+          <div class="cell"><small>🍕 PIZZA</small><b id="cPizza">–</b></div>
+          <div class="cell"><small>🔥 GRĂTAR</small><b id="cGrill">–</b></div>
+          <div class="cell"><small>🏴‍☠️ PIRAȚI</small><b id="cPirate">–</b></div>
+          <div class="cell"><small>⚓ ȘOFERI</small><b id="cCaptain">–</b></div>
+          <div class="cell"><small>TEST FINAL „D”</small><b id="cD">–</b></div>
+          <div class="cell"><small>TOTAL AGENȚI</small><b id="cTotal">–</b></div>
+        </div>
+        <p class="muted center" id="cAttendVotes"></p>
+        <p class="leader center" id="cLeader"></p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>NUME</th><th>VINE</th><th>ZI</th><th>MÂNCARE</th><th>ECHIPAJ</th><th>TEST</th><th>ACTUALIZAT</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+        <p class="muted" id="lastSync"></p>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btnRefresh" type="button">REÎMPROSPĂTEAZĂ</button>
+          <button class="btn btn-ghost" id="btnCsv" type="button">EXPORT CSV</button>
+        </div>
+        <button class="btn btn-ghost" id="btnLogout" type="button">DECONECTARE</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/avatars.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

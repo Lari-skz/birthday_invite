@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>⚠ PROTOCOLUL ANIVERSAR v1.0</title>
+  <meta name="description" content="Ai fost selectat(ă) pentru o operațiune secretă de decizie culinară.">
+  <meta property="og:title" content="⚠ PROTOCOLUL ANIVERSAR v1.0 ⚠">
+  <meta property="og:description" content="Ai fost selectat(ă) pentru o operațiune secretă. Pizza sau grătar. Soarta petrecerii depinde de tine.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#07090d">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="crt" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <button id="logo" class="logo" type="button" aria-label="Protocolul Aniversar"><span class="cake" id="cake">🎂</span><span class="logo-text">PROTOCOL-ANIV</span></button>
+    <span id="statusLed" class="led">● ONLINE</span>
+    <span id="achCount" class="ach-count" title="Trofee">🏆 0</span>
+  </header>
+
+  <main id="app">
+
+    <!-- ═════════ BOOT ═════════ -->
+    <section class="screen" data-screen="boot">
+      <div class="panel terminal">
+        <h1 class="title">PROTOCOLUL ANIVERSAR <span class="ver">v1.0</span></h1>
+        <p class="blink-line">INIȚIALIZARE PETRECERE ÎN CURS<span class="cursor">_</span></p>
+        <ul id="bootLines" class="boot-lines" aria-live="polite"></ul>
+        <button class="btn btn-primary hidden" id="btnEnter" type="button">[ INTRĂ LA PETRECERE ]</button>
+      </div>
+    </section>
+
+    <!-- ═════════ IDENTIFY ═════════ -->
+    <section class="screen" data-screen="identify">
+      <div class="panel">
+        <p class="mission-tag">PUNCT DE CONTROL</p>
+        <h2>IDENTIFICARE AGENT</h2>
+        <p class="muted">Scrie-ți numele, ca să știm cine vine.</p>
+        <p class="verdict win" id="personalNote" hidden></p>
+        <form id="formName" autocomplete="off" novalidate>
+          <label for="inpName" class="sr-only">Numele tău</label>
+          <input id="inpName" type="text" maxlength="40" autocomplete="given-name" placeholder="numele tău" enterkeyhint="done">
+          <p class="mission-tag avatar-title">ALEGE-ȚI AVATARUL DE AGENT</p>
+          <div class="avatar-grid" id="avatarGrid" role="radiogroup" aria-label="Alege un avatar"></div>
+          <p class="avatar-pick" id="avatarPick" aria-live="polite">Încă n-ai ales un avatar. 👀</p>
+          <p id="nameError" class="error" hidden></p>
+          <button class="btn btn-primary" id="btnName" type="submit">[ CONFIRMĂ IDENTITATEA ]</button>
+        </form>
+        <div id="scanLog" class="log" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ═════════ MISSION 01: RSVP ═════════ -->
+    <section class="screen" data-screen="rsvp">
+      <div class="panel">
+        <p class="mission-tag">MISIUNEA 01 — PREZENȚA</p>
+        <h2>Vii la petrecere?</h2>
+        <p class="muted" id="partyWhen"></p>
+        <div class="btn-stack" id="rsvpButtons">
+          <button class="btn btn-primary" id="btnYes" type="button">[ VIN SIGUR 🫡 ]</button>
+          <button class="btn btn-no" id="btnNo" type="button">[ ÎN NICIUN CAZ ]</button>
+        </div>
+        <div class="sad-cat" id="sadCat" hidden aria-hidden="true">
+          <svg viewBox="0 0 160 150">
+            <ellipse class="puddle" cx="80" cy="142" rx="56" ry="6" fill="#7cc7ff" opacity=".7"/>
+            <path d="M112 128 C 140 130, 146 104, 128 100" fill="none" stroke="#1b1b1b" stroke-width="12" stroke-linecap="round"/>
+            <path d="M112 128 C 140 130, 146 104, 128 100" fill="none" stroke="#f2a65a" stroke-width="7" stroke-linecap="round"/>
+            <ellipse cx="80" cy="116" rx="34" ry="24" fill="#f2a65a" stroke="#1b1b1b" stroke-width="3"/>
+            <ellipse cx="80" cy="122" rx="18" ry="14" fill="#fff1e0"/>
+            <ellipse cx="66" cy="138" rx="9" ry="6" fill="#f2a65a" stroke="#1b1b1b" stroke-width="3"/>
+            <ellipse cx="94" cy="138" rx="9" ry="6" fill="#f2a65a" stroke="#1b1b1b" stroke-width="3"/>
+            <g class="cat-head">
+              <path d="M52 50 L46 16 L74 34 Z M108 50 L114 16 L86 34 Z" fill="#f2a65a" stroke="#1b1b1b" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M53 40 L50 24 L64 33 Z M107 40 L110 24 L96 33 Z" fill="#ff9bb5"/>
+              <circle cx="80" cy="64" r="36" fill="#f2a65a" stroke="#1b1b1b" stroke-width="3"/>
+              <path d="M72 30 L74 40 M80 28 V40 M88 30 L86 40" stroke="#c97a2e" stroke-width="3" stroke-linecap="round"/>
+              <path d="M50 70 L60 70 M50 76 L60 74 M110 70 L100 70 M110 76 L100 74" stroke="#c97a2e" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M56 50 L72 44 M104 50 L88 44" stroke="#1b1b1b" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="66" cy="62" r="11" fill="#1b1b1b"/>
+              <circle cx="94" cy="62" r="11" fill="#1b1b1b"/>
+              <circle cx="70" cy="58" r="4" fill="#fff"/><circle cx="62" cy="66" r="2" fill="#fff"/>
+              <circle cx="98" cy="58" r="4" fill="#fff"/><circle cx="90" cy="66" r="2" fill="#fff"/>
+              <path d="M58 70 Q 60 86 58 98 M102 70 Q 100 86 102 98" fill="none" stroke="#7cc7ff" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+              <path d="M76 76 L84 76 L80 81 Z" fill="#ff7a9a" stroke="#1b1b1b" stroke-width="1.5" stroke-linejoin="round"/>
+              <path class="lip" d="M70 92 Q 75 86 80 90 Q 85 86 90 92" fill="none" stroke="#1b1b1b" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M44 80 L28 78 M44 85 L28 88 M116 80 L132 78 M116 85 L132 88" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
+            </g>
+            <path class="tear t1" d="M58 72 q -4 7 0 9 q 4 -2 0 -9 Z" fill="#7cc7ff"/>
+            <path class="tear t2" d="M102 72 q -4 7 0 9 q 4 -2 0 -9 Z" fill="#7cc7ff"/>
+            <path class="tear t3" d="M60 74 q -4 7 0 9 q 4 -2 0 -9 Z" fill="#7cc7ff"/>
+            <path class="tear t4" d="M100 74 q -4 7 0 9 q 4 -2 0 -9 Z" fill="#7cc7ff"/>
+          </svg>
+          <span class="snif s1">snif…</span>
+          <span class="snif s2">miau 😢</span>
+        </div>
+        <div id="rsvpVerdict" class="verdict" hidden aria-live="polite"></div>
+        <button class="btn btn-primary hidden" id="btnToBattle" type="button">[ CONTINUĂ ]</button>
+        <button class="btn btn-ghost hidden" id="btnChangeMind" type="button">M-AM RĂZGÂNDIT, VIN! 🎉</button>
+      </div>
+    </section>
+
+    <!-- ═════════ MISSION 02: DATE POLL ═════════ -->
+    <section class="screen" data-screen="date">
+      <div class="panel">
+        <p class="mission-tag">MISIUNEA 02 — OPERAȚIUNEA CALENDAR</p>
+        <h2>Ce zi îți convine?</h2>
+        <p class="muted">Știm sigur că e în weekend. Doar ziua n-am stabilit-o. Votează tu!</p>
+        <div class="btn-stack" id="dateButtons">
+          <button class="btn btn-day sat" data-day="saturday" type="button">[ 🪩 SÂMBĂTĂ ]<small id="lblSat"></small></button>
+          <div class="vs-small">— SAU —</div>
+          <button class="btn btn-day sun" data-day="sunday" type="button">[ 🛋️ DUMINICĂ ]<small id="lblSun"></small></button>
+        </div>
+        <div id="dateVerdict" class="verdict" hidden aria-live="polite"></div>
+        <button class="btn btn-primary hidden" id="btnDateNext" type="button">[ SPRE MISIUNEA 03 ]</button>
+      </div>
+    </section>
+
+    <!-- ═════════ MISSION 03: FOOD WAR ═════════ -->
+    <section class="screen" data-screen="battle">
+      <div class="panel panel-wide" id="battlePanel">
+        <p class="mission-tag">MISIUNEA 03 — RĂZBOIUL MÂNCĂRII</p>
+
+        <div class="arena" id="arena">
+          <div class="stars" aria-hidden="true"></div>
+          <p class="commentary" id="commentary" aria-live="polite"></p>
+
+          <!-- PIZZA SOLDIER (faces right) -->
+          <div class="soldier pizza" id="pizzaSoldier" aria-label="Generalul Pizza">
+            <svg viewBox="0 0 140 170" class="sprite" aria-hidden="true">
+              <g stroke="#1b1b1b" stroke-width="6" stroke-linecap="round">
+                <line x1="52" y1="132" x2="46" y2="160"/>
+                <line x1="72" y1="132" x2="80" y2="160"/>
+              </g>
+              <rect x="34" y="156" width="20" height="9" rx="3" fill="#1b1b1b"/>
+              <rect x="72" y="156" width="20" height="9" rx="3" fill="#1b1b1b"/>
+              <!-- garlic shield -->
+              <g class="shield">
+                <line x1="36" y1="84" x2="22" y2="98" stroke="#1b1b1b" stroke-width="6" stroke-linecap="round"/>
+                <path d="M20 74 C 2 90, 4 120, 22 128 C 42 120, 44 90, 28 74 C 27 64, 21 64, 20 74 Z" fill="#f4efe1" stroke="#1b1b1b" stroke-width="3.5"/>
+                <path d="M24 80 C 18 96, 18 112, 22 124 M24 80 C 32 96, 32 112, 26 124" fill="none" stroke="#c9bfa4" stroke-width="2.5"/>
+              </g>
+              <!-- slice body -->
+              <path d="M20 42 L106 42 L63 146 Z" fill="#ffd34d" stroke="#1b1b1b" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M34 58 q4 14 8 0 M86 58 q4 12 7 0" fill="#ffd34d" stroke="#e0a82a" stroke-width="2"/>
+              <circle cx="40" cy="62" r="7" fill="#d6332a" stroke="#1b1b1b" stroke-width="2"/>
+              <circle cx="88" cy="62" r="6" fill="#d6332a" stroke="#1b1b1b" stroke-width="2"/>
+              <!-- medals (very important, very shiny, awarded to himself) -->
+              <g stroke="#1b1b1b" stroke-width="1.5">
+                <rect x="51" y="102" width="6" height="7" fill="#2d5bd6"/>
+                <rect x="60" y="102" width="6" height="7" fill="#d6332a"/>
+                <rect x="69" y="102" width="6" height="7" fill="#1f9e5a"/>
+                <circle cx="54" cy="113" r="3.6" fill="#ffcf33"/>
+                <circle cx="63" cy="113" r="3.6" fill="#ffcf33"/>
+                <circle cx="72" cy="113" r="3.6" fill="#ffcf33"/>
+              </g>
+              <!-- crust -->
+              <rect x="14" y="32" width="98" height="18" rx="9" fill="#d98b3a" stroke="#1b1b1b" stroke-width="4"/>
+              <!-- gold epaulettes -->
+              <g fill="#ffcf33" stroke="#1b1b1b" stroke-width="2.5">
+                <rect x="6" y="34" width="20" height="9" rx="3"/>
+                <rect x="100" y="34" width="20" height="9" rx="3"/>
+              </g>
+              <path d="M8 43 v6 M12 43 v6 M16 43 v6 M20 43 v6 M24 43 v6 M102 43 v6 M106 43 v6 M110 43 v6 M114 43 v6 M118 43 v6" stroke="#e0a800" stroke-width="2"/>
+              <!-- officer's peaked cap -->
+              <path d="M26 32 L18 12 C 40 0, 90 0, 110 12 L102 32 Z" fill="#26262e" stroke="#1b1b1b" stroke-width="4" stroke-linejoin="round"/>
+              <rect x="24" y="24" width="80" height="9" rx="2" fill="#8b1a1a" stroke="#1b1b1b" stroke-width="3"/>
+              <path d="M28 27 Q 64 33 100 27" fill="none" stroke="#ffcf33" stroke-width="2"/>
+              <path d="M46 34 Q 84 46 120 32 L118 39 Q 82 54 44 40 Z" fill="#0e0e12" stroke="#1b1b1b" stroke-width="3" stroke-linejoin="round"/>
+              <circle cx="64" cy="14" r="7" fill="#ffcf33" stroke="#1b1b1b" stroke-width="2.5"/>
+              <path d="M60 11 L68 11 L64 19 Z" fill="#d98b3a" stroke="#1b1b1b" stroke-width="1.5" stroke-linejoin="round"/>
+              <!-- face: stern, chin up, monocle -->
+              <circle cx="54" cy="76" r="8" fill="#fff" stroke="#1b1b1b" stroke-width="2.5"/>
+              <circle cx="76" cy="76" r="8" fill="#fff" stroke="#1b1b1b" stroke-width="2.5"/>
+              <circle cx="57" cy="77" r="3.6" fill="#1b1b1b"/>
+              <circle cx="79" cy="77" r="3.6" fill="#1b1b1b"/>
+              <path d="M42 63 L62 70 M88 63 L68 70" stroke="#1b1b1b" stroke-width="5" stroke-linecap="round"/>
+              <circle cx="76" cy="76" r="11" fill="none" stroke="#ffcf33" stroke-width="2.5"/>
+              <path d="M86 81 Q 92 92 88 104" fill="none" stroke="#ffcf33" stroke-width="1.5"/>
+              <path d="M54 96 Q 65 89 76 96" fill="none" stroke="#1b1b1b" stroke-width="4" stroke-linecap="round"/>
+              <!-- pizza-slice sword -->
+              <g class="weapon" style="transform-origin: 92px 82px">
+                <line x1="92" y1="82" x2="114" y2="92" stroke="#1b1b1b" stroke-width="6" stroke-linecap="round"/>
+                <path d="M107 90 L121 90 L114 20 Z" fill="#ffd34d" stroke="#1b1b1b" stroke-width="3" stroke-linejoin="round"/>
+                <circle cx="114" cy="62" r="3" fill="#d6332a"/>
+                <circle cx="114" cy="44" r="2.4" fill="#d6332a"/>
+                <rect x="102" y="86" width="24" height="8" rx="4" fill="#d98b3a" stroke="#1b1b1b" stroke-width="2.5"/>
+                <circle cx="114" cy="96" r="6" fill="#ffd34d" stroke="#1b1b1b" stroke-width="2.5"/>
+              </g>
+            </svg>
+          </div>
+
+          <!-- MEAT SOLDIER (faces left) -->
+          <div class="soldier grill" id="grillSoldier" aria-label="Campionul BBQ">
+            <svg viewBox="0 0 140 170" class="sprite" aria-hidden="true">
+              <g stroke="#1b1b1b" stroke-width="6" stroke-linecap="round">
+                <line x1="62" y1="132" x2="56" y2="160"/>
+                <line x1="88" y1="132" x2="94" y2="160"/>
+              </g>
+              <rect x="46" y="156" width="20" height="9" rx="3" fill="#1b1b1b"/>
+              <rect x="86" y="156" width="20" height="9" rx="3" fill="#1b1b1b"/>
+              <!-- boxing glove -->
+              <g class="shield">
+                <line x1="108" y1="92" x2="118" y2="102" stroke="#1b1b1b" stroke-width="6" stroke-linecap="round"/>
+                <path d="M112 96 C 108 84, 122 78, 132 84 C 142 90, 142 106, 134 114 C 128 120, 114 118, 112 108 Z" fill="#d62828" stroke="#1b1b1b" stroke-width="3.5" stroke-linejoin="round"/>
+                <path d="M114 100 C 108 98, 106 106, 113 108" fill="#d62828" stroke="#1b1b1b" stroke-width="2.5"/>
+                <path d="M122 88 C 128 88, 134 92, 134 98" fill="none" stroke="#ff7b7b" stroke-width="2.5" stroke-linecap="round"/>
+                <rect x="110" y="112" width="20" height="9" rx="2" fill="#f4f4f4" stroke="#1b1b1b" stroke-width="2.5" transform="rotate(-20 120 116)"/>
+              </g>
+              <!-- head flame -->
+              <g class="flame">
+                <path d="M70 34 C 60 22, 70 12, 66 2 C 80 10, 84 20, 80 30 C 86 24, 88 18, 86 12 C 96 22, 94 34, 84 40 Z" fill="#ff7a1a" stroke="#1b1b1b" stroke-width="3" stroke-linejoin="round"/>
+                <path d="M74 36 C 70 28, 76 22, 74 16 C 82 22, 84 30, 80 36 Z" fill="#ffd34d"/>
+              </g>
+              <!-- steak body -->
+              <path d="M30 58 C 26 36, 60 26, 82 34 C 108 28, 124 52, 114 80 C 122 110, 100 140, 70 138 C 40 142, 22 116, 30 92 C 20 82, 24 66, 30 58 Z" fill="#a8432c" stroke="#1b1b1b" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M40 112 C 56 120, 72 108, 96 118" fill="none" stroke="#f3d2c1" stroke-width="4" stroke-linecap="round"/>
+              <g stroke="#5a1d12" stroke-width="5" stroke-linecap="round" opacity=".85">
+                <line x1="38" y1="100" x2="52" y2="90"/>
+                <line x1="62" y1="128" x2="104" y2="96"/>
+                <line x1="96" y1="72" x2="108" y2="64"/>
+              </g>
+              <!-- stars & stripes headband -->
+              <path d="M30 52 C 58 38, 92 38, 116 52 L114 63 C 90 50, 58 50, 30 62 Z" fill="#1f3a93" stroke="#1b1b1b" stroke-width="3" stroke-linejoin="round"/>
+              <text x="48" y="54" font-size="8" fill="#fff" font-family="sans-serif">★</text>
+              <text x="66" y="50" font-size="8" fill="#fff" font-family="sans-serif">★</text>
+              <text x="84" y="50" font-size="8" fill="#fff" font-family="sans-serif">★</text>
+              <text x="100" y="54" font-size="8" fill="#fff" font-family="sans-serif">★</text>
+              <path d="M114 54 L134 44 L138 54 L116 63 Z" fill="#fff" stroke="#1b1b1b" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M115 56 L135 47 M116 60 L137 51" stroke="#d62828" stroke-width="3"/>
+              <path d="M115 58 L132 64 L128 70 L114 62 Z" fill="#d62828" stroke="#1b1b1b" stroke-width="2.5" stroke-linejoin="round"/>
+              <!-- face -->
+              <circle cx="56" cy="78" r="8" fill="#fff" stroke="#1b1b1b" stroke-width="2.5"/>
+              <circle cx="80" cy="78" r="8" fill="#fff" stroke="#1b1b1b" stroke-width="2.5"/>
+              <circle cx="53" cy="79" r="3.6" fill="#1b1b1b"/>
+              <circle cx="77" cy="79" r="3.6" fill="#1b1b1b"/>
+              <path d="M46 68 L63 72 M90 68 L73 72" stroke="#1b1b1b" stroke-width="4" stroke-linecap="round"/>
+              <ellipse cx="64" cy="98" rx="9" ry="6" fill="#3a0d08" stroke="#1b1b1b" stroke-width="2.5"/>
+              <!-- spatula -->
+              <g class="weapon" style="transform-origin: 36px 88px">
+                <line x1="36" y1="88" x2="16" y2="98" stroke="#1b1b1b" stroke-width="6" stroke-linecap="round"/>
+                <line x1="16" y1="98" x2="20" y2="52" stroke="#3a2a1a" stroke-width="6" stroke-linecap="round"/>
+                <rect x="6" y="18" width="28" height="34" rx="3" fill="#c3ccd3" stroke="#1b1b1b" stroke-width="3"/>
+                <path d="M14 24 V46 M20 24 V46 M26 24 V46" stroke="#7d8790" stroke-width="2.5"/>
+                <circle cx="16" cy="98" r="6" fill="#a8432c" stroke="#1b1b1b" stroke-width="2.5"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="vs-badge" id="vsBadge" aria-hidden="true">VS</div>
+          <div class="impact" id="impact" aria-hidden="true"><span>CLANG!</span></div>
+          <div class="ground" aria-hidden="true"></div>
+        </div>
+
+        <div class="arena-labels"><span>🍕 GENERALUL PIZZA</span><span>CAMPIONUL BBQ 🇺🇸</span></div>
+        <button class="btn btn-ghost" id="btnSkip" type="button">SARI PESTE FILM ⏭</button>
+
+        <div id="choice" hidden>
+          <h2 class="center">CE MÂNCĂM LA PETRECERE?</h2>
+          <p class="muted center" id="prevVote" hidden></p>
+          <div class="btn-stack">
+            <button class="btn btn-pizza" data-vote="pizza" type="button">[ 🍕 VOTEZ PIZZA ]</button>
+            <div class="vs-small">— VS —</div>
+            <button class="btn btn-grill" data-vote="grill" type="button">[ 🔥 VOTEZ GRĂTARUL 🇺🇸 ]</button>
+          </div>
+        </div>
+
+        <div id="voteResult" hidden>
+          <div id="voteLog" class="verdict" aria-live="polite"></div>
+          <div id="voteStatus" class="status" hidden></div>
+          <button class="btn btn-primary hidden" id="btnToFinal" type="button">[ SPRE MISIUNEA 04 ]</button>
+        </div>
+
+        <div id="verdictBox" class="cinematic" hidden></div>
+      </div>
+    </section>
+
+    <!-- ═════════ MISSION 04: OPERATION RUM ═════════ -->
+    <section class="screen" data-screen="drink">
+      <div class="panel" id="drinkPanel">
+        <p class="mission-tag">MISIUNEA 04 — OPERAȚIUNEA ROM 🏴‍☠️</p>
+        <div class="sea" aria-hidden="true">
+          <svg class="ship" viewBox="0 0 200 150">
+            <!-- flag -->
+            <line x1="100" y1="10" x2="100" y2="100" stroke="#3a2412" stroke-width="5"/>
+            <path d="M100 12 L132 16 L130 34 L100 32 Z" fill="#111" stroke="#000" stroke-width="2"/>
+            <circle cx="115" cy="21" r="5" fill="#fff"/>
+            <circle cx="113" cy="20" r="1.4" fill="#111"/><circle cx="117" cy="20" r="1.4" fill="#111"/>
+            <path d="M109 29 L121 25 M109 25 L121 29" stroke="#fff" stroke-width="2"/>
+            <!-- sails -->
+            <path d="M100 36 Q 140 56 100 92 Z" fill="#f4ecd8" stroke="#3a2412" stroke-width="3"/>
+            <path d="M96 40 Q 62 62 96 92 Z" fill="#e9dcc0" stroke="#3a2412" stroke-width="3"/>
+            <!-- rum barrel -->
+            <g transform="translate(76 101)">
+              <rect x="-9" y="-17" width="18" height="17" rx="4" fill="#8a5a2b" stroke="#2a180a" stroke-width="2"/>
+              <path d="M-9 -12 H9 M-9 -5 H9" stroke="#3a2412" stroke-width="1.5"/>
+              <text x="0" y="-7" text-anchor="middle" font-family="monospace" font-size="5" font-weight="bold" fill="#ffe7b0">ROM</text>
+            </g>
+<g class="crew">
+            <g transform="translate(46 101)"><g class="pirate p1">
+              <path d="M-3 -4 L-4 2 M3 -4 L4 2" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round"/>
+              <rect x="-6" y="-18" width="12" height="15" rx="3" fill="#fff" stroke="#0d0f14" stroke-width="1.5"/>
+              <path d="M-6 -14 H6 M-6 -10 H6 M-6 -6 H6" stroke="#e2262b" stroke-width="1.6"/>
+              <path d="M-5 -16 L-10 -9" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M5 -16 L11 -23" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round"/><rect x="8" y="-31" width="7" height="8" rx="1" fill="#c98a2b" stroke="#0d0f14" stroke-width="1.5"/><path d="M8 -31 q 1.5 -3 3.5 0 q 2 -3 3.5 0" fill="#fff" stroke="#0d0f14" stroke-width="1"/>
+              <circle cx="0" cy="-24" r="6.5" fill="#f2c29b" stroke="#0d0f14" stroke-width="1.5"/>
+              <circle cx="-3.5" cy="-21.5" r="1.6" fill="#ff7a9a" opacity=".9"/><circle cx="3.5" cy="-21.5" r="1.6" fill="#ff7a9a" opacity=".9"/>
+              <path d="M-6 -27 L6 -23" stroke="#0d0f14" stroke-width="1"/><circle cx="2.4" cy="-24.3" r="2" fill="#0d0f14"/>
+              <path d="M-3.8 -25.5 l1.6 1.6 M-2.2 -25.5 l-1.6 1.6" stroke="#0d0f14" stroke-width="1"/>
+              <path d="M-2.5 -20 Q 0 -17.5 2.5 -20" fill="none" stroke="#0d0f14" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M-7 -27 Q 0 -35 7 -27 Z" fill="#e2262b" stroke="#0d0f14" stroke-width="1.5"/><path d="M6 -28 l6 2 l-4 3 Z" fill="#e2262b" stroke="#0d0f14" stroke-width="1"/>
+            </g></g><g transform="translate(128 101)"><g class="pirate p2">
+              <path d="M-3 -4 L-4 2 M3 -4 L4 2" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round"/>
+              <rect x="-6" y="-18" width="12" height="15" rx="3" fill="#fff" stroke="#0d0f14" stroke-width="1.5"/>
+              <path d="M-6 -14 H6 M-6 -10 H6 M-6 -6 H6" stroke="#e2262b" stroke-width="1.6"/>
+              <path d="M-5 -16 L-10 -9" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M5 -16 L12 -26" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round"/><path d="M10 -26 h5 v-6 h-1.5 v-4 h-2 v4 h-1.5 Z" fill="#2f9e5a" stroke="#0d0f14" stroke-width="1.2" transform="rotate(25 12 -30)"/>
+              <circle cx="0" cy="-24" r="6.5" fill="#f2c29b" stroke="#0d0f14" stroke-width="1.5"/>
+              <circle cx="-3.5" cy="-21.5" r="1.6" fill="#ff7a9a" opacity=".9"/><circle cx="3.5" cy="-21.5" r="1.6" fill="#ff7a9a" opacity=".9"/>
+              <path d="M-6 -27 L6 -23" stroke="#0d0f14" stroke-width="1"/><circle cx="2.4" cy="-24.3" r="2" fill="#0d0f14"/>
+              <path d="M-3.8 -25.5 l1.6 1.6 M-2.2 -25.5 l-1.6 1.6" stroke="#0d0f14" stroke-width="1"/>
+              <path d="M-2.5 -20 Q 0 -17.5 2.5 -20" fill="none" stroke="#0d0f14" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M-11 -28 Q 0 -40 11 -28 Q 0 -31 -11 -28 Z" fill="#1b1b22" stroke="#0d0f14" stroke-width="1.5"/><circle cx="0" cy="-33" r="1.6" fill="#fff"/>
+            </g></g><g transform="translate(158 101)"><g class="pirate p3">
+              <path d="M-3 -4 L-4 2 M3 -4 L4 2" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round"/>
+              <rect x="-6" y="-18" width="12" height="15" rx="3" fill="#fff" stroke="#0d0f14" stroke-width="1.5"/>
+              <path d="M-6 -14 H6 M-6 -10 H6 M-6 -6 H6" stroke="#e2262b" stroke-width="1.6"/>
+              <path d="M-5 -16 L-10 -9" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M5 -16 L11 -23" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round"/><rect x="8" y="-31" width="7" height="8" rx="1" fill="#c98a2b" stroke="#0d0f14" stroke-width="1.5"/><path d="M8 -31 q 1.5 -3 3.5 0 q 2 -3 3.5 0" fill="#fff" stroke="#0d0f14" stroke-width="1"/>
+              <circle cx="0" cy="-24" r="6.5" fill="#f2c29b" stroke="#0d0f14" stroke-width="1.5"/>
+              <circle cx="-3.5" cy="-21.5" r="1.6" fill="#ff7a9a" opacity=".9"/><circle cx="3.5" cy="-21.5" r="1.6" fill="#ff7a9a" opacity=".9"/>
+              <path d="M-6 -27 L6 -23" stroke="#0d0f14" stroke-width="1"/><circle cx="2.4" cy="-24.3" r="2" fill="#0d0f14"/>
+              <path d="M-3.8 -25.5 l1.6 1.6 M-2.2 -25.5 l-1.6 1.6" stroke="#0d0f14" stroke-width="1"/>
+              <path d="M-2.5 -20 Q 0 -17.5 2.5 -20" fill="none" stroke="#0d0f14" stroke-width="1.2" stroke-linecap="round"/>
+              <path d="M-7 -27 C -7 -36, 7 -36, 7 -27 Z" fill="#2d5bd6" stroke="#0d0f14" stroke-width="1.5"/><circle cx="0" cy="-36" r="2" fill="#fff"/>
+            </g></g>
+            </g>
+            <!-- hull -->
+            <path d="M30 100 L170 100 L156 128 L46 128 Z" fill="#7a4a24" stroke="#2a180a" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M38 110 H162" stroke="#5a3418" stroke-width="3"/>
+            <circle cx="70" cy="118" r="4" fill="#2a180a"/><circle cx="100" cy="118" r="4" fill="#2a180a"/><circle cx="130" cy="118" r="4" fill="#2a180a"/>
+          </svg>
+          <div class="waves"></div>
+          <div class="splash" id="splash">SPLASH!</div>
+        </div>
+        <h2>Ahoi, marinare! Corabia petrecerii pleacă în curând.</h2>
+        <p class="muted">Orice corabie are nevoie de pirați… și de cineva treaz care să-i ducă acasă. Tu ce ești?</p>
+        <div class="btn-stack" id="drinkButtons">
+          <button class="btn btn-pirate" data-drink="pirate" type="button">[ 🏴‍☠️ MĂ ÎMBĂT CA UN PIRAT ]<small>Io-ho-ho și-o sticlă de rom!</small></button>
+          <div class="vs-small">— SAU —</div>
+          <button class="btn btn-captain" data-drink="captain" type="button">[ ⚓ EU CONDUC CORABIA ]<small>Prietenul care îi duce pe toți acasă</small></button>
+        </div>
+        <div id="drinkVerdict" class="verdict" hidden aria-live="polite"></div>
+        <button class="btn btn-primary hidden" id="btnDrinkNext" type="button">[ SPRE TESTUL FINAL ]</button>
+      </div>
+    </section>
+
+    <!-- ═════════ MISSION 05: FINAL TEST ═════════ -->
+    <section class="screen" data-screen="final">
+      <div class="panel" id="finalPanel">
+        <p class="mission-tag">MISIUNEA 05 — TESTUL FINAL</p>
+        <h2>O evaluare psihologică absolut necesară</h2>
+        <div id="story" class="story" aria-live="polite"></div>
+        <div class="btn-stack" id="answers" hidden>
+          <button class="btn btn-answer" data-answer="A" type="button"><b>A</b> Aștepți politicos să vină toată lumea.</button>
+          <button class="btn btn-answer" data-answer="B" type="button"><b>B</b> Întrebi dacă mâncăm odată.</button>
+          <button class="btn btn-answer" data-answer="C" type="button"><b>C</b> „Iau și eu doar puțin.”</button>
+          <button class="btn btn-answer" data-answer="D" type="button"><b>D</b> TE ARUNCI PE MÂNCARE.</button>
+        </div>
+        <div id="finalReaction" class="verdict" hidden aria-live="polite"></div>
+        <div id="finalNext" hidden>
+          <button class="btn btn-primary" id="btnToDebrief" type="button">[ TRIMITE EVALUAREA ]</button>
+          <button class="btn btn-ghost" id="btnRetake" type="button">REIA TESTUL (o să știm)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ DEBRIEF ═════════ -->
+    <section class="screen" data-screen="debrief">
+      <div class="panel">
+        <p class="mission-tag">TOATE MISIUNILE ÎNDEPLINITE</p>
+        <h2>DOSARUL AGENTULUI</h2>
+        <div class="dossier" id="dossier"></div>
+
+        <div id="verdictEnd" class="cinematic" hidden></div>
+
+        <div class="party-info">
+          <h3>DETALII PETRECERE</h3>
+          <p id="infoWhen"></p>
+          <p id="infoWhere"></p>
+          <p class="countdown" id="countdown"></p>
+          <p class="whatsapp-note">📲 Data, ora și locația le veți primi pe WhatsApp în cel mult 2 zile.</p>
+        </div>
+
+        <div id="debriefStatus" class="status" hidden></div>
+
+        <h3>TROFEE</h3>
+        <ul class="ach-list" id="achList"></ul>
+
+        <p class="closing">Asta a fost complet inutil.</p>
+        <p class="closing2">…dar recunoaște că ți-a plăcut. 😏</p>
+
+        <button class="btn btn-ghost" id="btnRestart" type="button">IA-O DE LA ZERO (ȘTERGE TOT)</button>
+      </div>
+    </section>
+
+  </main>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/avatars.js"></script>
+  <script src="js/effects.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
